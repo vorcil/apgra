@@ -1,0 +1,13 @@
+%High Energy Detection - Sodium Iodide Crystal interpolator;
+%github.com/vorcil/apgra;
+
+%Import data from ocsilliscope where $filename is path to datafile;
+filename='ACO57_1RED.txt';
+data = importdata(filename);
+%Draw data
+%peakfit(data);
+
+peakfit(data);
+figure(2);
+ax2=subplot(211);
+copyobj(allchild(
