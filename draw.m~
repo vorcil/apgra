@@ -5,7 +5,11 @@
 filename='ACS137RED.txt';
 data = importdata(filename);
 
-%
+%number of peak energies
+nEnergy=2;
+
+figure
+subplot(nEnergy,1,i)
 peakfit(data);
 plot(data(:,2));
 
@@ -23,4 +27,8 @@ tempsize=floor(0.025*size(data(:,2)));
 %Find next local minimum and make a subset from that point and the original
 %dataset
 temp=data(1:tempsize(1),2);
-%find(data(1:tempsize(1))==)
+LMin=min(temp);
+LMinPos=find(data(:,2)==LMin)
+data=data(LMinPos:size(data(:,2)),:);
+
+plot(data(:,2));

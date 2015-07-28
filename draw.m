@@ -4,15 +4,20 @@
 %Import data from ocsilliscope where $filename is path to datafile and plot;
 filename='ACS137RED.txt';
 data = importdata(filename);
+%peakfit(data);
+%number of peak energies
+nEnergy=2;
 
-%
-peakfit(data);
+for i = 1:nEnergy
+figure
+subplot(nEnergy,1,i)
+disp('i is:' + i);
 plot(data(:,2));
 
 %Find position of max
 p=findpeaks(data(:,2));
 LMax=max(p);
-LMaxPos=find(data(:,2)==LMax)
+LMaxPos=find(data(:,2)==LMax);
 
 %clear data to that peak
 data=data(LMaxPos:size(data(:,2)),:);
@@ -24,6 +29,7 @@ tempsize=floor(0.025*size(data(:,2)));
 %dataset
 temp=data(1:tempsize(1),2);
 LMin=min(temp);
-LMinPos=find(data(:,2)==LMin)
-
+LMinPos=find(data(:,2)==LMin);
 data=data(LMinPos:size(data(:,2)),:);
+
+end
