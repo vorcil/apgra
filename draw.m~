@@ -8,15 +8,21 @@ data = importdata(filename);
 %number of peak energies
 nEnergy=2;
 
+%create figure for plot - before loop
 figure
+
+%for each peak energy in data
+for i = 1:nEnergy
+%select a subplot for that energy
 subplot(nEnergy,1,i)
-peakfit(data);
+
+%plot that data set inclusive of n peaks
 plot(data(:,2));
 
-%Find position of max
+%Find position of the first peak maximum
 p=findpeaks(data(:,2));
 LMax=max(p);
-LMaxPos=find(data(:,2)==LMax)
+LMaxPos=find(data(:,2)==LMax);
 
 %clear data to that peak
 data=data(LMaxPos:size(data(:,2)),:);
@@ -28,7 +34,7 @@ tempsize=floor(0.025*size(data(:,2)));
 %dataset
 temp=data(1:tempsize(1),2);
 LMin=min(temp);
-LMinPos=find(data(:,2)==LMin)
+LMinPos=find(data(:,2)==LMin);
 data=data(LMinPos:size(data(:,2)),:);
 
-plot(data(:,2));
+end

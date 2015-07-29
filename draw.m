@@ -2,34 +2,42 @@
 %github.com/vorcil/apgra;
 
 %Import data from ocsilliscope where $filename is path to datafile and plot;
-filename='ACS137RED.txt';
+filename='ABa133RED.txt';
 data = importdata(filename);
-%peakfit(data);
+tempData = data;
 %number of peak energies
 nEnergy=2;
-
-for i = 1:nEnergy
+%matrix of peak positions in data
+pos=[];
+%create figure for plot - before loop
 figure
-subplot(nEnergy,1,i)
-disp('i is:' + i);
-plot(data(:,2));
 
-%Find position of max
-p=findpeaks(data(:,2));
+%for each peak energy in data
+for i = 1:nEnergy
+%select a subplot for that energy
+subplot(nEnergy,1,i)
+
+%plot that data set inclusive of n peaks
+plot(tempData(:,2));
+
+%Find position of the first peak maximum
+p=findpeaks(tempData(:,2));
 LMax=max(p);
-LMaxPos=find(data(:,2)==LMax);
+LMaxPos=find(tempData(:,2)==LMax);
+%save position to pos array
+pos(i)=LMaxPos;
 
 %clear data to that peak
-data=data(LMaxPos:size(data(:,2)),:);
+tempData=tempData(LMaxPos:size(tempData(:,2)),:);
 
 %create subset of data 2.5%(arbitrary) of size and locate the minimum index
-tempsize=floor(0.025*size(data(:,2)));
+tempsize=floor(0.025*size(tempData(:,2)));
 
 %Find next local minimum and make a subset from that point and the original
 %dataset
-temp=data(1:tempsize(1),2);
+temp=tempData(1:tempsize(1),2);
 LMin=min(temp);
-LMinPos=find(data(:,2)==LMin);
-data=data(LMinPos:size(data(:,2)),:);
+LMinPos=find(tempData(:,2)==LMin);
+tempData=tempData(LMinPos:size(tempData(:,2)),:);
 
 end
